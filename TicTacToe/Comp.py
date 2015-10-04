@@ -33,9 +33,8 @@ class Comp(Player):
 		
 		for move in moves:
 			sim_grid = self.simulate_move(move, self.opp, deepcopy(grid))
-			isterm = self.is_terminal(sim_grid)
-			if isterm:
-				moves_values.append(isterm)
+			if self.is_terminal(sim_grid):
+				moves_values.append(self.utility(sim_grid)
 			else:
 				moves_values.append(self.Max(sim_grid))
 		print "Min: moves_values =",moves_values #debugging
@@ -54,9 +53,9 @@ class Comp(Player):
 		
 		for move in moves:
 			sim_grid = self.simulate_move(move, self.symbol, deepcopy(grid))
-			isterm = self.is_terminal(sim_grid)
-			if isterm:
-				moves_values.append(isterm)
+			isterm = 
+			if self.is_terminal(sim_grid):
+				moves_values.append(self.utility(sim_grid))
 			else:
 				moves_values.append(self.Min(sim_grid))
 		print "Max: moves_values =",moves_values #debugging
@@ -78,7 +77,7 @@ class Comp(Player):
 		"""
 		winner  = self.check(grid)
 		if winner in [self.symbol, self.opp, None]:
-			return self.utility(winner)
+			return True
 		else:
 			return False
 		
