@@ -1,3 +1,5 @@
+try:
+	from setuptools import setup
 except ImportError:
 	from distutils.core import setup
 config = {
@@ -9,7 +11,7 @@ config = {
 	'version': '0.1',
 	'install_requires': ['nose'],
 	'packages': ['TicTacToe'],
-	'scripts': ['engine.py', 'player.py', "Comp.py", "main.py", "Compmain.py"],
+	'scripts': ["bin/main.py", "bin/Compmain.py"],
 	'name': 'TicTacToe'
 }
 
