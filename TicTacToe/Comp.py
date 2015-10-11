@@ -20,11 +20,11 @@ class Comp(Player):
 
 	def Minimax(self, grid):
 		"""Chooses the move among all possible moves which has least chance of loss."""
-		return self.Max(grid)
+		return self.Max(grid, True)
 
 	def Min(self, grid):		
 		"""Returns the minimum chance of winning for the opponent in their turn."""
-		print "Entering Min" #debug
+		#print "Entering Min" #debug
 		# Get all possible values
 		moves = self.all_possible(grid)
 		
@@ -33,18 +33,18 @@ class Comp(Player):
 		
 		for move in moves:
 			sim_grid = self.simulate_move(move, self.opp, deepcopy(grid))
-			if self.is_terminal(sim_grid):
-				moves_values.append(self.utility(sim_grid)
+			isterm = self.is_terminal(sim_grid)
+			if isterm in [self.symbol, self.opp, None]:
+				moves_values.append(self.utility(isterm))
 			else:
 				moves_values.append(self.Max(sim_grid))
-		print "Min: moves_values =",moves_values #debugging
+		#print "Min: moves_values =",moves_values #debugging
 		return min(moves_values)
-
 			
-	def Max(self, grid):
+	def Max(self, grid, lastLevel=False):
 		"""Returns the move with maximum chance of winning
 		when simulating Computer's turn."""
-		print "Entering Max" #debug
+		#print "Entering Max" #debug
 		# Get all possible moves
 		moves = self.all_possible(grid)
 		if moves == []: raise Exception, "No all_possible() moves."
@@ -53,13 +53,15 @@ class Comp(Player):
 		
 		for move in moves:
 			sim_grid = self.simulate_move(move, self.symbol, deepcopy(grid))
-			isterm = 
-			if self.is_terminal(sim_grid):
-				moves_values.append(self.utility(sim_grid))
+			isterm = self.is_terminal(sim_grid)
+			if isterm in [self.symbol, self.opp, None]:
+				moves_values.append(self.utility(isterm))
 			else:
 				moves_values.append(self.Min(sim_grid))
-		print "Max: moves_values =",moves_values #debugging
+		#print "Max: moves_values =",moves_values #debugging
 
+		if lastLevel: return moves[moves_values.index(max(moves_values))]
+		
 		return max(moves_values)
 
 	def simulate_move(self, move, sym, grid):
@@ -77,7 +79,7 @@ class Comp(Player):
 		"""
 		winner  = self.check(grid)
 		if winner in [self.symbol, self.opp, None]:
-			return True
+			return winner
 		else:
 			return False
 		
